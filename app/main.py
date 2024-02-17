@@ -11,9 +11,9 @@ app = FastAPI()
 schema = Schema(query=Query, mutation=Mutation)
 
 
-@app.on_event("startup")
-def startup_event():
-    create_database()
+# @app.on_event("startup")
+# def startup_event():
+#     create_database()
 
 
 app.mount("/", GraphQLApp(schema=schema, on_get=make_playground_handler()))

@@ -1,5 +1,6 @@
 from app.database.database import Base, engine, Session
 from app.database.model import User
+from app.user.utils.password import hash_password
 
 
 def create_database() -> None:
@@ -9,7 +10,7 @@ def create_database() -> None:
     user = User(
         username="admin",
         email="admin@admin.com",
-        password="admin",
+        password=hash_password("admin"),
         full_name="admin",
         is_active=True,
         is_admin=True,

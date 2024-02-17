@@ -1,7 +1,7 @@
-from graphene import ObjectType
+from app.user.mutations import UserMutation
 
 
-class Mutation(ObjectType):
+class Mutation(UserMutation):
     """A class that serves as the entry point for all GraphQL mutations in the application.
 
     This class inherits from `UserMutation`, which is the base class for all user mutations. This allows for grouping
