@@ -16,6 +16,8 @@ python-dotenv = "^1.0.1"
 sqlalchemy = "^2.0.27"
 pyjwt = "^2.8.0"
 psycopg = {version = "^3.1.13", extras = ["binary", "pool"]}
+python-multipart = "^0.0.9"
+python-magic-bin = "^0.4.14"
 
 
 [build-system]
