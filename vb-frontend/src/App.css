@@ -1,0 +1,229 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@900&display=swap");
+
+:root {
+  --text-font-family: "Poppins", sans-serif;
+  --heading-font-family: "Nunito", "sans-serif";
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #010048;
+  color: white;
+  /* height: 100vh; */
+  position: relative;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.logo,
+.main-heading,
+.file-upload-text {
+  font-family: var(--heading-font-family);
+}
+.main-desc {
+  font-family: var(--text-font-family);
+}
+.file-upload-container {
+  width: 90%;
+  max-width: 800px;
+  border-radius: 15px;
+  background-color: rgba(0, 0, 0, 0.578);
+  position: relative;
+}
+.file-upload-container::before {
+  content: "";
+  max-width: 500px;
+  width: 90%;
+  min-height: 500px;
+  border-radius: 50%;
+  background-color: aqua;
+  position: absolute;
+  top: -5rem;
+  left: -5rem;
+  filter: blur(200px);
+  z-index: -5;
+}
+.shadow {
+  content: "";
+  width: 1000px;
+  height: 500px;
+  border-radius: 50%;
+  background-color: rgb(240, 80, 237);
+  position: absolute;
+  top: -3rem;
+  filter: blur(250px);
+  z-index: -5;
+}
+.file-upload-container::after {
+  content: "";
+  max-width: 350px;
+  width: 90%;
+  min-height: 350px;
+  border-radius: 50%;
+  background-color: aqua;
+  position: absolute;
+  right: -5rem;
+  top: -5rem;
+  filter: blur(200px);
+  z-index: -2;
+}
+.file-upload-label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+  border: 3px dashed rgba(128, 128, 128, 0.5);
+  border-radius: 15px;
+  cursor: pointer;
+}
+.file-upload-icon {
+  font-size: 4rem !important;
+}
+
+.circle-one {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: -webkit-radial-gradient(
+    left top,
+    rgba(128, 128, 128, 0.33) 10px,
+    rgba(255, 255, 255, 0.785)
+  );
+  position: absolute;
+  top: 50%;
+  left: 10%;
+}
+.circle-two {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgb(47, 255, 179);
+  position: absolute;
+  top: 90%;
+  left: 20%;
+}
+.circle-three {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: -webkit-radial-gradient(
+    left top,
+    rgba(128, 128, 128, 0.33) 10px,
+    rgba(255, 255, 255, 0.785)
+  );
+  position: absolute;
+  top: 10%;
+  right: 20%;
+}
+.circle-four {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: orange;
+  position: absolute;
+  top: 30%;
+  right: 10%;
+}
+.arrow {
+  position: absolute;
+  top: -13rem;
+  right: -10rem;
+  width: 250px;
+  transform: rotate(-30deg) scaleY(-1);
+}
+
+
+/* LOGIN CSS */
+.wrapper{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-box{
+  background-color : #fff;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 3px;
+}
+.form-input{
+  display : flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.form-title{
+  font-family: var(--heading-font-family);
+}
+
+.form-input label , .form-link{
+  font-family: var(--text-font-family);
+
+}
+.form-input input{
+  outline: none;
+  border: none;
+  border-left: 6px solid #010048;
+  background-color: rgb(223, 221, 221);
+  border-radius: 2px;
+  height: 2.5rem;
+  padding: 0 .4rem;
+  font-family: var(--text-font-family);
+}
+.form-btn{
+  width: 100%;
+  color: #fff;
+  outline: none;
+  border: none;
+  background-color: #010048;
+  border-radius: 20px;
+  font-family: var(--text-font-family);
+}
+
+
+
+/* MEDIA QUERIES */
+@media screen and (min-width: 1200px) and (max-width: 1464px) {
+  body {
+    overflow: hidden;
+  }
+  .circle-one {
+    left: 5%;
+  }
+  .circle-two {
+    left: 10%;
+  }
+  .circle-three {
+    right: 15%;
+  }
+  .circle-four {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: orange;
+    position: absolute;
+    top: 40%;
+    right: 5%;
+  }
+  .file-upload-container {
+    margin-top: 5rem;
+  }
+  .file-upload-container::after {
+    right: 0;
+  }
+  .shadow {
+    max-width: 700px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .file-upload-container::after {
+    right: 0;
+  }
+}
