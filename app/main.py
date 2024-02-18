@@ -55,7 +55,7 @@ async def upload_ebook(
 @app.get("/get-audiobook")
 async def get_audiobook():
     # Basic functionality to serve audiobook file; to be replaced with proper file serving
-    return FileResponse("audiobooks/techno.mp3", filename="techno_111MB.mp3")
+    return FileResponse("audiobooks/test.mp3", filename="test.mp3")
 
 
 # @app.on_event("startup")
