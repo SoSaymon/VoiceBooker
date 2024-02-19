@@ -4,6 +4,8 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import FileResponse
 from starlette_graphene3 import GraphQLApp, make_playground_handler
 
+from app.database.database import Session
+from app.database.model import User, Audiobook, EBook
 from app.gql.mutations import Mutation
 from app.gql.queries import Query
 from app.utils.file_operations.save_file import scramble_filename, save_file
@@ -53,10 +55,33 @@ async def upload_ebook(
     return {"filename": filename, "file_type": file_type, "email": email}
 
 
-@app.get("/get-audiobook")
-async def get_audiobook():
-    # Basic functionality to serve audiobook file; to be replaced with proper file serving
-    return FileResponse("audiobooks/test.mp3", filename="test.mp3")
+@app.get("/get-audiobook/{filename}")
+async def get_audiobook(
+    filename: str,
+    authorization: str = Header(None),
+):
+    validate_authorization_header(authorization)
+    old_filename = filename
+    with Session() as session:
+        email = get_email_from_jwt(authorization)
+        user = session.query(User).filter(User.email == email).first()
+        audiobook = (
+            session.query(Audiobook).filter(Audiobook.filename == old_filename).first()
+        )
+        if not audiobook:
+            return {"message": "Audiobook not found"}
+        ebook = session.query(EBook).filter(EBook.id == audiobook.ebook_id).first()
+        if not ebook:
+            return {"message": "Ebook not found"}
+        if (
+            ebook.user_id != user.id or audiobook.user_id != user.id
+        ) and not user.is_admin:
+            return {"message": "Unauthorized"}
+        filename = f"{ebook.title} - {ebook.author}.mp3"
+
+    return FileResponse(
+        f"audiobooks/{old_filename}", filename=filename, media_type="audio/mpeg"
+    )
 
 
 # @app.on_event("startup")

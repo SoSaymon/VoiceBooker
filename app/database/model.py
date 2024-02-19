@@ -49,7 +49,7 @@ class Audiobook(Base):
     __tablename__ = "audiobooks"
     id = Column(Integer, primary_key=True, autoincrement=True)
     filename = Column(String, nullable=False)
-    ebook_id = Column(ForeignKey("ebooks.id"), nullable=False)
+    ebook_id = Column(ForeignKey("ebooks.id"), nullable=False, unique=True)
     user_id = Column(ForeignKey("users.id"), nullable=False)
     created_at = Column(DateTime, default=datetime.now(tz=timezone.utc), nullable=False)
     delete_time = Column(
