@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import FormContainer from "../FormContainer";
 import Button from "../Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { CREATE_USER } from "../../gqloperations/mutations";
 import { toast } from "react-toastify";
 import Spinner from "../../Spinner";
 
 const Signup = () => {
-
+    const navigate = useNavigate()
     const [createUser, { data, loading, error }] = useMutation(CREATE_USER)
     const [signupData, setSignupData] = useState({
         username: '',
@@ -47,6 +47,7 @@ const Signup = () => {
                     password: '',
                 })
                 toast.success('User registered successfully!');
+                navigate('/')
 
             }).catch((error) => {
                 if (error) {
