@@ -1,9 +1,13 @@
+import threading
+
 from graphene import Mutation, String, Boolean, Field, Int
 from graphql import GraphQLError
 
 from app.database.database import Session
 from app.database.model import FileUpload
 from app.ebook.utils.create_ebook import create_ebook
+from app.file_convertion.epub_to_txt import epub_to_txt
+from app.file_convertion.pdf_to_txt import pdf_to_txt
 from app.gql.types import FileUploadObject
 from app.user.utils.user import get_authenticated_user
 
@@ -52,7 +56,13 @@ class CreateFileUpload(Mutation):
                 session=session,
             )
 
-            # TODO: Start file conversion process here (threading)
+            if file_type == "application/pdf":
+                # this is entry point for book to audio conversion
+                t1 = threading.Thread(target=pdf_to_txt)
+                t1.start()
+            elif file_type == "application/epub+zip":
+                t1 = threading.Thread(target=epub_to_txt)
+                t1.start()
 
             return CreateFileUpload(ok=True, file_upload=file_upload)
 
