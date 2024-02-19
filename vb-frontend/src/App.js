@@ -22,14 +22,11 @@ const App = () => {
 
     <AuthProvider store={store}>
       <BrowserRouter>
-
-
         <Routes>
-          <Route path="/" element={<Signup />} />
-          <Route path="/signin" element={<Login />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/home" element={<RequireAuth fallbackPath={'/signin'} ><Home /></RequireAuth>} />
         </Routes>
-
       </BrowserRouter>
     </AuthProvider>
 

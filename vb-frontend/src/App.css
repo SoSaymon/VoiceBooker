@@ -138,45 +138,44 @@ body {
   transform: rotate(-30deg) scaleY(-1);
 }
 
-
 /* LOGIN CSS */
-.wrapper{
+.wrapper {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.login-box{
-  background-color : #fff;
+.login-box {
+  background-color: #fff;
   max-width: 500px;
   width: 100%;
   margin: 0 auto;
   border-radius: 3px;
 }
-.form-input{
-  display : flex;
+.form-input {
+  display: flex;
   flex-direction: column;
   gap: 5px;
 }
-.form-title{
+.form-title {
   font-family: var(--heading-font-family);
 }
 
-.form-input label , .form-link{
+.form-input label,
+.form-link {
   font-family: var(--text-font-family);
-
 }
-.form-input input{
+.form-input input {
   outline: none;
   border: none;
   border-left: 6px solid #010048;
   background-color: rgb(223, 221, 221);
   border-radius: 2px;
   height: 2.5rem;
-  padding: 0 .4rem;
+  padding: 0 0.4rem;
   font-family: var(--text-font-family);
 }
-.form-btn{
+.form-btn {
   width: 100%;
   color: #fff;
   outline: none;
@@ -185,22 +184,21 @@ body {
   border-radius: 20px;
   font-family: var(--text-font-family);
 }
-.loading-spinner{
+.loading-spinner {
   font-size: 1.3rem;
   animation: spinner linear 2s infinite;
 }
 @keyframes spinner {
-  0%{
+  0% {
     transform: rotate(0);
   }
-  50%{
+  50% {
     transform: rotate(180deg);
   }
-  100%{
+  100% {
     transform: rotate(360deg);
   }
 }
-
 
 /* MEDIA QUERIES */
 @media screen and (min-width: 1200px) and (max-width: 1464px) {
@@ -217,11 +215,6 @@ body {
     right: 15%;
   }
   .circle-four {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: orange;
-    position: absolute;
     top: 40%;
     right: 5%;
   }

@@ -64,7 +64,7 @@ const Signup = () => {
     return <>
         <FormContainer>
             <h3 className="form-title ">Signup Account</h3>
-            <p className="form-link">Already register? <Link to={'/signin'}>Sign in</Link></p>
+            <p className="form-link">Already register? <Link to={'/'}>Sign in</Link></p>
             <div className="my-3 form-input">
                 <label htmlFor="fullName">Full Name</label>
                 <input type="text" id="fullName" value={signupData.fullName} placeholder="fullName..." onChange={handleChange} />

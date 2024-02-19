@@ -70,7 +70,7 @@ const Login = () => {
     return <>
         <FormContainer>
             <h3 className="form-title ">Signin Account</h3>
-            <p className="form-link">Does not have account? <Link to={'/'}>Sign up</Link></p>
+            <p className="form-link">Does not have account? <Link to={'/signup'}>Sign up</Link></p>
             <div className="my-3 form-input">
                 <label htmlFor="email">Email</label>
                 <input type="text" id="email" placeholder="Email..." value={loginData.email} onChange={handleChange} />
