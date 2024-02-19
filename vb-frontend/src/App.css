@@ -185,7 +185,21 @@ body {
   border-radius: 20px;
   font-family: var(--text-font-family);
 }
-
+.loading-spinner{
+  font-size: 1.3rem;
+  animation: spinner linear 2s infinite;
+}
+@keyframes spinner {
+  0%{
+    transform: rotate(0);
+  }
+  50%{
+    transform: rotate(180deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
 
 
 /* MEDIA QUERIES */
