@@ -36,12 +36,21 @@
               - filename: `<filename>`
               - file_type: `<file_type>`
               - email: `<email>`
-- **http://localhost:8000/get-audiobook**
+- **http://localhost:8000/get-audiobook/{filename}**
     - **Method**: GET
-    - **Response**: 
-        - **Status Code**: 200
-          - **Body**:
-            - file: `<file>` 
+    - **Request**: 
+        - **Headers**: 
+            - Authorization Bearer `<token>`
+        - **Body**: 
+            - None
+    - **Response**:
+    - **Status Code**: 200
+        - **Body**: 
+            - `<audiobook>`
+            - **Headers**: 
+                - Content-Disposition: attachment; filename=`<filename>`
+                - Content-Type: audio/mpeg
+
 
 
 ## File Upload
@@ -77,4 +86,12 @@
 
 ### How to get the audiobook
 
-To be done in future, now the audiobook is not generated yet. It's only possible to download example audiobook from the `get-audiobook` endpoint. Do not forget to add the `Authorization` header with the `Bearer` token.
+1. Send a request via GQL `GetAudiobookFilename` query
+    ```graphql
+    query getAudiobookFilename($ebookId: Int!) {
+    getAudiobookFilename(ebookId: $ebookId)
+    }
+    ```
+2. You will receive a response with the filename
+3. Use the filename to send a GET request to `/get-audiobook` endpoint
+4. You will receive the audiobook file
