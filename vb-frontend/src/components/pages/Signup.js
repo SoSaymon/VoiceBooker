@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import FormContainer from "../FormContainer";
 import Button from "../Button";
@@ -84,6 +85,8 @@ const Signup = () => {
             </div>
 
             <Button onClick={registerUser}>{loading ? <Spinner /> : 'Sign up'}</Button>
+
+
 
         </FormContainer>
     </>;

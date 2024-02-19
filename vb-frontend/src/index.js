@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import ReactDOM from 'react-dom/client';
 import App from './App';
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
@@ -39,7 +40,6 @@ root.render(
       <App />
     </ApolloProvider>
 
-  </React.StrictMode>
-);
+
 
 

@@ -4,6 +4,7 @@ import { Routes, BrowserRouter, Route } from 'react-router-dom'
 import Login from "./components/pages/Login";
 import Home from "./components/pages/Home";
 import Signup from "./components/pages/Signup";
+
 import AuthProvider from "react-auth-kit";
 import createStore from "react-auth-kit/createStore";
 import RequireAuth from '@auth-kit/react-router/RequireAuth'
@@ -29,6 +30,7 @@ const App = () => {
         </Routes>
       </BrowserRouter>
     </AuthProvider>
+
 
 
   </>;

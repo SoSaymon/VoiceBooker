@@ -11,6 +11,7 @@ const Home = () => {
       <Logo />
       <HeroSection />
       <FileUpload />
+
     </Container>
   </>;
 };
