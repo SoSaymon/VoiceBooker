@@ -25,7 +25,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/home" element={<RequireAuth fallbackPath={'/signin'} ><Home /></RequireAuth>} />
+          <Route path="/home" element={<RequireAuth fallbackPath={'/'} ><Home /></RequireAuth>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
