@@ -45,11 +45,12 @@ async def upload_ebook(
         "application/epub+zip",
     ]
     file_type = validate_file_type(file.file.read(), allowed_file_types)
+    file.file.seek(0)
 
-    file.filename = scramble_filename(file.filename)
-    await save_file(file, file.filename)
+    filename = scramble_filename(file.filename)
+    await save_file(file, filename)
 
-    return {"filename": file.filename, "file_type": file_type, "email": email}
+    return {"filename": filename, "file_type": file_type, "email": email}
 
 
 @app.get("/get-audiobook")
