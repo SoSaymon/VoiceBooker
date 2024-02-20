@@ -82,10 +82,58 @@ body {
   border-radius: 15px;
   cursor: pointer;
 }
+.file-upload-inputs {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+label {
+  font-family: var(--text-font-family);
+  margin-bottom: 0.3rem;
+}
+.book-title,
+.author {
+  outline: none;
+  border: none;
+  border: 1px solid #ffffffae;
+  background-color: #0100483a;
+  border-radius: 10px;
+  height: 2.5rem;
+  padding: 0 0.4rem;
+  font-family: var(--text-font-family);
+  color: #fff;
+}
+.textarea {
+  outline: none;
+  border: none;
+  border: 1px solid #ffffffae;
+  background-color: #0100483a;
+  border-radius: 10px;
+  padding: 0.4rem 0.4rem;
+  font-family: var(--text-font-family);
+  color: #fff;
+}
 .file-upload-icon {
   font-size: 4rem !important;
 }
-
+.file-deatils {
+  /* background-color: #fff; */
+  width: max-content;
+  color: #fff;
+  padding: 0.2rem 0.9rem;
+  cursor: pointer;
+  font-family: var(--text-font-family);
+}
+.file-upload-btn {
+  background-color: #fff;
+  color: #010048;
+  outline: none;
+  border: none;
+  font-family: var(--text-font-family);
+  padding: 0.4rem 0.7rem;
+  border-radius: 1.1rem;
+  width: 150px;
+}
 .circle-one {
   width: 50px;
   height: 50px;
@@ -118,7 +166,7 @@ body {
     rgba(255, 255, 255, 0.785)
   );
   position: absolute;
-  top: 10%;
+  top: 5%;
   right: 20%;
 }
 .circle-four {
@@ -138,20 +186,16 @@ body {
   transform: rotate(-30deg) scaleY(-1);
 }
 
-
-
 /* LOGIN CSS */
-.wrapper{
-
+.wrapper {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.login-box{
-  background-color : #fff;
-
+.login-box {
+  background-color: #fff;
   max-width: 500px;
   width: 100%;
   margin: 0 auto;
@@ -172,29 +216,26 @@ body {
   font-family: var(--text-font-family);
 }
 
-.form-title{
+.form-title {
   font-family: var(--heading-font-family);
 }
 
-.form-input label , .form-link{
+.form-input label,
+.form-link {
   font-family: var(--text-font-family);
-
 }
-.form-input input{
-
+.form-input input {
   outline: none;
   border: none;
   border-left: 6px solid #010048;
   background-color: rgb(223, 221, 221);
   border-radius: 2px;
   height: 2.5rem;
-
   padding: 0 0.4rem;
   font-family: var(--text-font-family);
 }
 
-.form-btn{
-
+.form-btn {
   width: 100%;
   color: #fff;
   outline: none;
@@ -220,10 +261,6 @@ body {
   }
 }
 
-
-
-
-
 /* MEDIA QUERIES */
 @media screen and (min-width: 1200px) and (max-width: 1464px) {
   body {
@@ -239,7 +276,6 @@ body {
     right: 15%;
   }
   .circle-four {
-
     top: 40%;
     right: 5%;
   }
