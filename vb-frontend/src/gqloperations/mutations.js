@@ -46,3 +46,27 @@ mutation refreshToken{
   }
 }
 `
+export const CREATE_FILE_UPLOAD = gql`
+mutation createFileUpload($filename: String!, $fileType: String!, $title: String!, $author: String!, $summary: String!) {
+  createFileUpload(filename: $filename, fileType: $fileType, title: $title, author: $author, summary: $summary) {
+      ok
+      fileUpload {
+          id
+          filename
+          fileType
+          userId
+          createdAt
+          deleteTime
+          user {
+              username
+          }
+          ebooks {
+              id
+              title
+              author
+              summary
+          }
+      }
+  }
+  }
+`
