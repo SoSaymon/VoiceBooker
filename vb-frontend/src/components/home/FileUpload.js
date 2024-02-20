@@ -14,13 +14,9 @@ const FileUpload = () => {
     const [author, setauthor] = useState('');
     const [title, setTitle] = useState('');
     const [summary, setsummary] = useState('');
-   
-
-
-
+    
     const auth = useAuthUser()
     // console.log(auth?.user?.token);
-
     const [createFileUpload, { loading }] = useMutation(CREATE_FILE_UPLOAD)
 
 
@@ -29,7 +25,7 @@ const FileUpload = () => {
     const handleFileSelect = (e) => {
         setfile(e.target.files[0])
     }
-    // console.log(file);
+    
 
     // post request to send uploaded file
     //http://localhost:8000/upload-ebook
