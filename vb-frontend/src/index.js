@@ -40,6 +40,10 @@ root.render(
       <App />
     </ApolloProvider>
 
+</React.StrictMode>
+);
+
+
 
 
 
