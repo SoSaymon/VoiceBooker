@@ -1,4 +1,4 @@
-from typing import Tuple, Dict
+from typing import Tuple, Dict, Optional
 
 from graphql import GraphQLError
 
@@ -9,7 +9,17 @@ from app.user.utils.jwt import verify_jwt, verify_refresh_jwt
 
 def get_authenticated_user(
     context: Dict, regeneration: bool = False
-) -> Tuple[User, str]:
+) -> Tuple[Optional[User], str]:
+    """
+    Retrieves the authenticated user from the context.
+
+    Args:
+        context (Dict): The context containing the request object.
+        regeneration (bool, optional): A flag indicating whether to regenerate the JWT. Defaults to False.
+
+    Returns:
+        Tuple[Optional[User], str]: The authenticated user and the token, if found. Else, raises a GraphQLError.
+    """
     request = context.get("request")
     if request is None:
         raise GraphQLError("Missing request object in context")

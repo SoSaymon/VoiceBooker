@@ -1,3 +1,4 @@
+from typing import Optional
 from app.database.database import Session
 from app.database.model import EBook
 
@@ -10,6 +11,20 @@ def create_ebook(
     user_id: int,
     session: Session,
 ) -> None:
+    """
+    Function to create an ebook.
+
+    Args:
+        title (str): The title of the ebook.
+        author (str): The author of the ebook.
+        summary (str): The summary of the ebook.
+        file_upload_id (int): The ID of the file upload.
+        user_id (int): The ID of the user.
+        session (Session): The database session.
+
+    Returns:
+        None
+    """
     ebook = EBook(
         title=title,
         author=author,

@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Optional, Type
 
 from graphene import Mutation, String, Boolean, Field, Int
 from graphql import GraphQLError
@@ -15,6 +15,19 @@ from app.utils.decorators import logged_in
 
 
 class CreateUser(Mutation):
+    """
+    Mutation for creating a new user.
+
+    Args:
+        username (str): The username of the new user.
+        email (str): The email of the new user.
+        password (str): The password of the new user.
+        full_name (str): The full name of the new user.
+
+    Returns:
+        CreateUser: The created user.
+    """
+
     class Arguments:
         username = String(required=True)
         email = String(required=True)
@@ -25,7 +38,9 @@ class CreateUser(Mutation):
     user = Field(UserObject)
 
     @staticmethod
-    def mutate(root, info, username: str, email: str, password: str, full_name: str):
+    def mutate(
+        root, info, username: str, email: str, password: str, full_name: str
+    ) -> Type["CreateUser"]:
         with Session() as session:
             is_valid_email(email)
 
@@ -58,6 +73,17 @@ class CreateUser(Mutation):
 
 
 class LoginUser(Mutation):
+    """
+    Mutation for logging in a user.
+
+    Args:
+        email (str): The email of the user.
+        password (str): The password of the user.
+
+    Returns:
+        LoginUser: The logged in user with their token, refresh token, and user object.
+    """
+
     class Arguments:
         email = String(required=True)
         password = String(required=True)
@@ -67,7 +93,7 @@ class LoginUser(Mutation):
     user = Field(UserObject)
 
     @staticmethod
-    def mutate(root, info, email: str, password: str):
+    def mutate(root, info, email: str, password: str) -> Type["LoginUser"]:
         with Session() as session:
             user = session.query(User).filter(User.email == email).first()
 
@@ -91,14 +117,30 @@ class LoginUser(Mutation):
 
 
 class UpdateUser(Mutation):
+    """
+    Mutation for updating a user's details.
+
+    Args:
+        user_id (int): The ID of the user to update.
+        old_password (str): The old password of the user.
+        username (Optional[str], optional): The new username of the user. Defaults to None.
+        email (Optional[str], optional): The new email of the user. Defaults to None.
+        password (Optional[str], optional): The new password of the user. Defaults to None.
+        active (Optional[bool], optional): The new active status of the user. Defaults to None.
+        full_name (Optional[str], optional): The new full name of the user. Defaults to None.
+
+    Returns:
+        UpdateUser: The updated user.
+    """
+
     class Arguments:
         user_id = Int(required=True)
+        old_password = String(required=True)
         username = String()
         email = String()
         password = String()
-        old_password = String()
-        full_name = String()
         active = Boolean()
+        full_name = String()
 
     ok = Boolean()
     user = Field(UserObject)
@@ -115,7 +157,7 @@ class UpdateUser(Mutation):
         password: Optional[str] = None,
         active: Optional[bool] = None,
         full_name: Optional[str] = None,
-    ):
+    ) -> Type["UpdateUser"]:
         user_token = get_authenticated_user(info.context)
 
         if user_token:
@@ -175,6 +217,16 @@ class UpdateUser(Mutation):
 
 
 class DeleteUser(Mutation):
+    """
+    Mutation for deleting a user.
+
+    Args:
+        user_id (int): The ID of the user to delete.
+
+    Returns:
+        DeleteUser: A boolean indicating whether the deletion was successful.
+    """
+
     class Arguments:
         user_id = Int(required=True)
 
@@ -182,7 +234,7 @@ class DeleteUser(Mutation):
 
     @staticmethod
     @logged_in
-    def mutate(root, info, user_id: int):
+    def mutate(root, info, user_id: int) -> Type["DeleteUser"]:
         user_token = get_authenticated_user(info.context)
 
         if user_token:
@@ -208,12 +260,19 @@ class DeleteUser(Mutation):
 
 
 class RegenerateJWT(Mutation):
+    """
+    Mutation for regenerating a user's JWT.
+
+    Returns:
+        RegenerateJWT: The regenerated JWT, refresh token, and user object.
+    """
+
     token = String()
     refresh_token = String()
     user = Field(UserObject)
 
     @staticmethod
-    def mutate(root, info):
+    def mutate(root, info) -> Type["RegenerateJWT"]:
         user, token = get_authenticated_user(info.context, regeneration=True)
         tokens = regenerate_jwt(token)
         token = tokens[0]

@@ -1,15 +1,24 @@
 from functools import wraps
-from typing import Callable
-
+from typing import Callable, Any
 from graphql import GraphQLError
 
 from app.database.model import User
 from app.user.utils.user import get_authenticated_user
 
 
-def logged_in(func: Callable):
+def logged_in(func: Callable[..., Any]) -> Callable[..., Any]:
+    """
+    Decorator to ensure the user is logged in.
+
+    Args:
+        func (Callable[..., Any]): The function to be decorated.
+
+    Returns:
+        Callable[..., Any]: The decorated function.
+    """
+
     @wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
         info = args[1]
         user_token = get_authenticated_user(info.context)
 

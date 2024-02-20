@@ -8,8 +8,20 @@ def create_audiobook(
     filename: str,
     ebook_id: int,
     user_id: int,
-    session: Session = None,
+    session: Optional[Session] = None,
 ) -> Audiobook:
+    """
+    Function to create an audiobook.
+
+    Args:
+        filename (str): The name of the file.
+        ebook_id (int): The ID of the ebook.
+        user_id (int): The ID of the user.
+        session (Optional[Session], optional): The database session. Defaults to None.
+
+    Returns:
+        Audiobook: The created audiobook.
+    """
     if not session:
         with Session() as session:
             audiobook = create_audiobook(

@@ -1,4 +1,5 @@
 import threading
+from typing import Optional, Tuple
 
 from graphene import Mutation, String, Boolean, Field, Int
 from graphql import GraphQLError
@@ -13,6 +14,14 @@ from app.user.utils.user import get_authenticated_user
 
 
 class CreateFileUpload(Mutation):
+    """
+    Mutation for creating a file upload.
+
+    Attributes:
+        ok (Boolean): Indicates if the mutation was successful.
+        file_upload (FileUploadObject): The created file upload.
+    """
+
     class Arguments:
         filename = String(required=True)
         file_type = String(required=True)
@@ -20,8 +29,8 @@ class CreateFileUpload(Mutation):
         author = String(required=True)
         summary = String(required=True)
 
-    ok = Boolean()
-    file_upload = Field(FileUploadObject)
+    ok: Optional[bool] = Boolean()
+    file_upload: Optional[FileUploadObject] = Field(FileUploadObject)
 
     @staticmethod
     def mutate(
@@ -32,7 +41,22 @@ class CreateFileUpload(Mutation):
         title: str,
         author: str,
         summary: str,
-    ):
+    ) -> "CreateFileUpload":
+        """
+        The mutation method for creating a file upload.
+
+        Args:
+            root: The root object that GraphQL was called on.
+            info: Provides access to execution-specific state in GraphQL.
+            filename (str): The name of the file.
+            file_type (str): The type of the file.
+            title (str): The title of the ebook.
+            author (str): The author of the ebook.
+            summary (str): The summary of the ebook.
+
+        Returns:
+            CreateFileUpload: The mutation response.
+        """
         with Session() as session:
             token_user = get_authenticated_user(info.context)
             user = token_user[0]
@@ -57,7 +81,6 @@ class CreateFileUpload(Mutation):
             )
 
             if file_type == "application/pdf":
-                # this is entry point for book to audio conversion
                 t1 = threading.Thread(target=pdf_to_txt)
                 t1.start()
             elif file_type == "application/epub+zip":
@@ -68,13 +91,31 @@ class CreateFileUpload(Mutation):
 
 
 class DeleteFileUpload(Mutation):
+    """
+    Mutation for deleting a file upload.
+
+    Attributes:
+        ok (Boolean): Indicates if the mutation was successful.
+    """
+
     class Arguments:
         id = Int(required=True)
 
-    ok = Boolean()
+    ok: Optional[bool] = Boolean()
 
     @staticmethod
-    def mutate(root, info, id: int):
+    def mutate(root, info, id: int) -> "DeleteFileUpload":
+        """
+        The mutation method for deleting a file upload.
+
+        Args:
+            root: The root object that GraphQL was called on.
+            info: Provides access to execution-specific state in GraphQL.
+            id (int): The ID of the file upload to delete.
+
+        Returns:
+            DeleteFileUpload: The mutation response.
+        """
         with Session() as session:
             token_user = get_authenticated_user(info.context)
             user = token_user[0]

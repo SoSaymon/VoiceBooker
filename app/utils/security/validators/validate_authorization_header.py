@@ -1,9 +1,19 @@
 from fastapi import Header, HTTPException
+from typing import Optional
 
 from app.user.utils.jwt import verify_jwt
 
 
-def validate_authorization_header(authorization: str = Header(None)) -> None:
+def validate_authorization_header(authorization: Optional[str] = Header(None)) -> None:
+    """
+    Validates the authorization header.
+
+    Args:
+        authorization (Optional[str], optional): The authorization header. Defaults to None.
+
+    Raises:
+        HTTPException: If the token is invalid, the scheme is invalid, or the authorization header is missing.
+    """
     if authorization:
         scheme, _, token = authorization.partition(" ")
         if scheme.lower() == "bearer":

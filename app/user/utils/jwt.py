@@ -13,6 +13,16 @@ TOKEN_EXPIRE_REFRESH_MINUTES = int(getenv("TOKEN_EXPIRE_REFRESH_MINUTES"))
 
 
 def generate_jwt(email: str, token_type: str) -> str:
+    """
+    Generates a JWT for the given email and token type.
+
+    Args:
+        email (str): The email of the user.
+        token_type (str): The type of the token ("access" or "refresh").
+
+    Returns:
+        str: The generated JWT.
+    """
     if token_type == "access":
         expiration = get_expiration_date(TOKEN_EXPIRE_MINUTES)
     elif token_type == "refresh":
@@ -26,10 +36,28 @@ def generate_jwt(email: str, token_type: str) -> str:
 
 
 def get_expiration_date(expire_minutes: int) -> datetime:
+    """
+    Gets the expiration date for a token.
+
+    Args:
+        expire_minutes (int): The number of minutes until the token expires.
+
+    Returns:
+        datetime: The expiration date of the token.
+    """
     return datetime.utcnow() + timedelta(minutes=expire_minutes)
 
 
 def verify_jwt(token: str) -> Tuple[bool, Dict]:
+    """
+    Verifies a JWT.
+
+    Args:
+        token (str): The JWT to verify.
+
+    Returns:
+        Tuple[bool, Dict]: A tuple containing a boolean indicating whether the token is valid and the payload of the token.
+    """
     try:
         payload: Dict = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
 
@@ -47,6 +75,15 @@ def verify_jwt(token: str) -> Tuple[bool, Dict]:
 
 
 def verify_refresh_jwt(token: str) -> Tuple[bool, Dict]:
+    """
+    Verifies a refresh JWT.
+
+    Args:
+        token (str): The refresh JWT to verify.
+
+    Returns:
+        Tuple[bool, Dict]: A tuple containing a boolean indicating whether the token is valid and the payload of the token.
+    """
     try:
         payload: Dict = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
 
@@ -64,7 +101,15 @@ def verify_refresh_jwt(token: str) -> Tuple[bool, Dict]:
 
 
 def regenerate_jwt(token: str) -> Tuple[str, str]:
+    """
+    Regenerates a JWT and a refresh JWT.
 
+    Args:
+        token (str): The refresh JWT to use for regeneration.
+
+    Returns:
+        Tuple[str, str]: A tuple containing the regenerated JWT and refresh JWT.
+    """
     valid, payload = verify_refresh_jwt(token)
 
     if valid:
