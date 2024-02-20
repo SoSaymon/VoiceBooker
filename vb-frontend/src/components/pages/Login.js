@@ -42,7 +42,7 @@ const Login = () => {
             toast.error("All fields are required!")
         } else {
             loginUser({ variables: loginData }).then((response) => {
-                // console.log(response.data);
+                console.log(response.data);
                 signIn({
                     auth: {
                         token: response.data.loginUser.token,
@@ -50,7 +50,8 @@ const Login = () => {
                     },
                     refresh: response.data.loginUser.refreshToken,
                     userState: {
-                        email: loginData.email
+                        email: loginData.email,
+                        user: response.data.loginUser
                     }
                 })
 
@@ -61,7 +62,7 @@ const Login = () => {
                 toast.error(error.message)
                 console.log(error);
             })
-        }       
+        }
     }
 
    //registred user credentials
