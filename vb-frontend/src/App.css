@@ -171,13 +171,7 @@ body {
 .form-link {
   font-family: var(--text-font-family);
 }
-.form-input input {
 
-.form-input{
-  display : flex;
-  flex-direction: column;
-  gap: 5px;
-}
 .form-title{
   font-family: var(--heading-font-family);
 }
