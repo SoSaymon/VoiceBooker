@@ -9,6 +9,8 @@ import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import Spinner from "../../Spinner";
 import DownloadFile from "./DownloadFile";
 
+
+
 const FileUpload = () => {
     const [file, setfile] = useState(null);
     const [fileUploadError, setfileUploadError] = useState('');
@@ -16,7 +18,6 @@ const FileUpload = () => {
     const [title, setTitle] = useState('');
     const [summary, setsummary] = useState('');
     const [ebookId, setebookId] = useState(0);
-
     const [status, setstatus] = useState('fileUpload');
 
 
@@ -24,11 +25,10 @@ const FileUpload = () => {
     // console.log(auth?.user?.token);
  
 
-    const [createFileUpload, { loading }] = useMutation(CREATE_FILE_UPLOAD)
+    const [createFileUpload, { loading }] = useMutation(CREATE_FILE_UPLOAD)    
+  
 
-
-
-    //handle file select
+    // handle file select
     const handleFileSelect = (e) => {
         setfile(e.target.files[0])
     }
@@ -42,11 +42,13 @@ const FileUpload = () => {
         } else {
             const formData = new FormData();
             formData.append('file', file);
-            formData.append('filename', file?.name); // Append the filename
-            formData.append('fileType', file?.type); // Append the fileType
-            formData.append('title', title);
-            formData.append('author', author);
-            formData.append('summary', summary);
+            formData.append('filename', file?.name);   // Append the filename
+            formData.append('fileType', file?.type);  // Append the fileType
+            formData.append('filename', file.name);  // Append the filename
+            formData.append('fileType', file.type); // Append the fileType
+            formData.append('title', title);       // Append the title    
+            formData.append('author', author);    // Append the author
+            formData.append('summary', summary); // Append the summary
 
             fetch('http://localhost:8000/upload-ebook', {
                 method: 'POST',
@@ -79,10 +81,12 @@ const FileUpload = () => {
                         }
 
                     }).then((gqlRes) => {
+
                         console.log(gqlRes);
                         setebookId(gqlRes.data.createFileUpload.fileUpload.ebooks[0].id);
                         toast.success('File uploaded Successfully!');
                         setstatus("audioReady")
+
                         setTitle("");
                         setauthor("");
                         setsummary("");
@@ -96,10 +100,16 @@ const FileUpload = () => {
                 })
                 .catch((error) => {
                     toast.error(error.message);
+                    if (!res.ok) {
+                        throw new Error('Network response was not ok');
+                    } 
+                    console.log(res)
+                }).catch((error) => {
                     console.error('Error uploading file:', error); // Handle error
                 });
         }
     };
+
 
     return <>
         <div className="file-upload-container  p-5 mx-auto">
@@ -124,6 +134,7 @@ const FileUpload = () => {
                         <input className="w-100 author" type="text" id="author" placeholder="Author name..." value={author} onChange={(e) => setauthor(e.target.value)} />
                     </div>
                 </div>
+
                 <label htmlFor="summary">Summary</label>
                 <br />
                 <textarea id="summary" cols="30" className="w-100 textarea mb-2" rows="3" placeholder="Summary..." value={summary} onChange={(e) => setsummary(e.target.value)}></textarea>
@@ -138,6 +149,7 @@ const FileUpload = () => {
                 <div className="shadow d-none d-xl-block"></div>
                 <DownloadFile ebookId={ebookId} setstatus={setstatus} />
             </>}
+
         </div>
 
     </>;
