@@ -70,3 +70,10 @@ mutation createFileUpload($filename: String!, $fileType: String!, $title: String
   }
   }
 `
+
+//queries
+export const GET_AUDIO_BOOK = gql`
+query getAudiobookFilename($ebookId: Int!) {
+  getAudiobookFilename(ebookId: $ebookId)
+  }
+`
