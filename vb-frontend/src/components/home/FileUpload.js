@@ -12,19 +12,17 @@ import DownloadFile from "./DownloadFile";
 const FileUpload = () => {
     const [file, setfile] = useState(null);
     const [fileUploadError, setfileUploadError] = useState('');
-    const [author, setauthor] = useState('');
-    const [title, setTitle] = useState('');
-    const [summary, setsummary] = useState('');
-    const [ebookId, setebookId] = useState(0);
-
+    const [loading, setloading] = useState(false);
     const [status, setstatus] = useState('fileUpload');
+    const [fileUrl, setfileUrl] = useState('');
+    const [fileName, setfileName] = useState('');
+
+
 
 
     const auth = useAuthUser()
     // console.log(auth?.user?.token);
- 
-
-    const [createFileUpload, { loading }] = useMutation(CREATE_FILE_UPLOAD)
+    // const [createFileUpload, { loading }] = useMutation(CREATE_FILE_UPLOAD)
 
 
 
@@ -33,77 +31,47 @@ const FileUpload = () => {
         setfile(e.target.files[0])
     }
 
-
-
     // post request to send uploaded file
-    const handleUploadFile = () => {
-        if (!file || !author || !title || !summary) {
-            toast.error("All fields are required!");
-        } else {
+    const handleUploadFile = async () => {
+        setloading(true);
+
+        try {
             const formData = new FormData();
-            formData.append('file', file);
-            formData.append('filename', file?.name); // Append the filename
-            formData.append('fileType', file?.type); // Append the fileType
-            formData.append('title', title);
-            formData.append('author', author);
-            formData.append('summary', summary);
+            formData.append('pdf_file', file);
+            setfileName(file?.name);
 
-            fetch('http://localhost:8000/upload-ebook', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${auth?.user?.token}`
-                },
-                body: formData
-            })
-                .then((res) => {
-                    if (res.ok) {
-                        return res.json();
-                    }
-                    throw new Error('Network response was not ok.');
-                })
-                .then((data) => {
-                    const { email, file_type, filename } = data
-                    createFileUpload({
-                        variables: {
-                            filename,
-                            fileType: file_type,
-                            title,
-                            author,
-                            summary,
-
-                        },
-                        context: {
-                            headers: {
-                                Authorization: `Bearer ${auth?.user?.token}`
-                            }
-                        }
-
-                    }).then((gqlRes) => {
-                        console.log(gqlRes);
-                        setebookId(gqlRes.data.createFileUpload.fileUpload.ebooks[0].id);
-                        toast.success('File uploaded Successfully!');
-                        setstatus("audioReady")
-                        setTitle("");
-                        setauthor("");
-                        setsummary("");
-                        setfile(null);
-                    }).catch((err) => {
-                        toast.error(err.message)
-                        console.log('GQL error', err);
-                    })
+            const response = await fetch("https://ai-blinkist.onrender.com/upload-pdf/", {
+                method: "POST",
+                body: formData,
+            });
 
 
-                })
-                .catch((error) => {
-                    toast.error(error.message);
-                    console.error('Error uploading file:', error); // Handle error
-                });
+            if (!response.ok) {
+                throw new Error("Failed to upload file.");
+            }
+
+            const blob = await response.blob();         
+            const url = URL.createObjectURL(blob);
+
+            // console.log(blob, );
+            console.log(url);
+            setfileUrl(url);            
+            setstatus("audioReady");
+            setloading(false);
+        } catch (err) {
+            console.error("Upload failed:", err);
+            setloading(false);
         }
     };
 
+
+
+
+
+
     return <>
         <div className="file-upload-container  p-5 mx-auto">
-            {status === 'fileUpload' && <> <div className="file-upload-box">
+            {status === 'fileUpload' && <> <div className="file-upload-box mb-3 ">
                 <input type="file" accept=".pdf,.epub" id="upload" hidden onChange={handleFileSelect} />
                 <label htmlFor="upload" className="file-upload-label p-3">
                     <IoMdCloudUpload className="file-upload-icon mt-2" />
@@ -111,32 +79,17 @@ const FileUpload = () => {
                 </label>
             </div>
 
-                <div className="my-3  d-flex justify-between gap-3">
-                    <div className="w-100">
-                        <label htmlFor="book">Book Title</label>
-                        <br />
-                        <input className="w-100 book-title " type="text" id="book" placeholder="Book title..." value={title} onChange={(e) => setTitle(e.target.value)} />
-                    </div>
 
-                    <div className="w-100">
-                        <label htmlFor="author">Author</label>
-                        <br />
-                        <input className="w-100 author" type="text" id="author" placeholder="Author name..." value={author} onChange={(e) => setauthor(e.target.value)} />
-                    </div>
-                </div>
-                <label htmlFor="summary">Summary</label>
-                <br />
-                <textarea id="summary" cols="30" className="w-100 textarea mb-2" rows="3" placeholder="Summary..." value={summary} onChange={(e) => setsummary(e.target.value)}></textarea>
 
                 <div className="shadow d-none d-xl-block"></div>
                 <img src={wavyArrow} alt="arrow" className=" arrow d-none d-xl-block" />
                 {fileUploadError && <p className="text-center mt-3 text-danger">{fileUploadError}</p>}
                 {file && <p className="file-deatils mt-1 ">{file.name}</p>}
-                <button onClick={handleUploadFile} className="file-upload-btn fw-bold float-end ">{loading ? <Spinner /> : 'Upload'}</button></>}
+                <button onClick={handleUploadFile} className="file-upload-btn fw-bold  float-end ">{loading ? <Spinner /> : 'Upload'}</button></>}
 
             {status === 'audioReady' && <>
                 <div className="shadow d-none d-xl-block"></div>
-                <DownloadFile ebookId={ebookId} setstatus={setstatus} />
+                <DownloadFile url={fileUrl} setstatus={setstatus} fileName={fileName} />
             </>}
         </div>
 
